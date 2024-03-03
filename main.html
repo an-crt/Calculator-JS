@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Calculator | JS</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Anta&display=swap')
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="display">
+            <div id="value">
+                <input type="text" id="context" readonly>
+            </div>
+            <div class="line"></div>
+        </div>
+        <div class="buttons">
+            <div class="row row0">
+                <button class="accent bs" value="backspace" onclick="del(); removeErr();"><i class="fa-solid fa-delete-left"></i></button>
+                <button class="accent ac" value="clear" onclick="clearDisplay(); removeErr()">C</button>
+                <button class="accent" value="**" onclick="append(this)">x²</button>
+                <button class="accent" value="/" onclick="append(this)">&div;</button>
+            </div>
+            <div class="row row1">
+                <button value="7" onclick="append(this)">7</button>
+                <button value="8" onclick="append(this)">8</button>
+                <button value="9" onclick="append(this)">9</button>
+                <button class="accent" value="*" onclick="append(this)">×</button>
+            </div>
+            <div class="row row2">
+                <button value="4" onclick="append(this)">4</button>
+                <button value="5" onclick="append(this)">5</button>
+                <button value="6" onclick="append(this)">6</button>
+                <button class="accent" value="-" onclick="append(this)">-</button>
+            </div>
+            <div class="row row3">
+                <button value="1" onclick="append(this)">1</button>
+                <button value="2" onclick="append(this)">2</button>
+                <button value="3" onclick="append(this)">3</button>
+                <button class="accent" value="+" onclick="append(this)">+</button>
+            </div>
+            <div class="row row4">
+                <button value="0" onclick="append(this)">0</button>
+                <button value="." onclick="append(this)">.</button>
+                <button class="span-2 accent" onclick="calculate()">=</button>
+            </div>
+        </div>
+    </div>
+    <script src="https://kit.fontawesome.com/6fa890e72d.js" crossorigin="anonymous"></script>
+    <script>
+        const display = document.getElementById("context");
+        const lastRes = localStorage.getItem("lastRes");
+        display.value = lastRes;
+
+        function append(button) {
+            let lastChar = display.value.slice(-1);
+
+            if (button.value === "." && display.value.includes('.')) return;
+
+            display.value = ['+', '-', '*', '/'].includes(lastChar) && ['+', '-', '*', '/'].includes(button.value)
+                ? display.value.slice(0, -1) + button.value
+                : display.value + button.value;
+        }
+
+        const del = () => display.value = display.value.slice(0, -1);
+
+        const clearDisplay = () => display.value = '';
+
+        const removeErr = () => {
+            display.value === "" && document.body.classList.remove("err");
+        };
+
+        const calculate = () => {
+            try {
+                removeErr();
+                display.value === "" ? null : (display.value = eval(display.value), localStorage.setItem("lastRes", display.value));
+            } catch {
+                document.body.classList.add("err");
+            }
+        };
+
+        calculate();
+
+        window.addEventListener("load", () => {
+            document.querySelector(".container").style.opacity = "1";
+        });
+    </script>
+</body>
+</html>
