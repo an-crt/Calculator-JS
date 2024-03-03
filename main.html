@@ -20,7 +20,7 @@
         <div class="buttons">
             <div class="row row0">
                 <button class="accent bs" value="backspace" onclick="del(); removeErr();"><i class="fa-solid fa-delete-left"></i></button>
-                <button class="accent ac" value="clear" onclick="clearDisplay(); removeErr()">C</button>
+                <button class="accent ac" value="clear" onclick="clearDisplay(); clr(); removeErr()">C</button>
                 <button class="accent" value="**" onclick="append(this)">x²</button>
                 <button class="accent" value="/" onclick="append(this)">&div;</button>
             </div>
@@ -83,6 +83,8 @@
         };
 
         calculate();
+        
+        const clr = () => localStorage.clear()
 
         window.addEventListener("load", () => {
             document.querySelector(".container").style.opacity = "1";
